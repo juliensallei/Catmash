@@ -5,9 +5,22 @@ import './css/index.css'
 import { useFetch } from './hooks/useFetch'
 import { useEffect, useState } from 'react';
 
+//Import Components
+import LoadingScreen from './components/loadingScreen';
+
 function App() {
+  //Hooks
   const fetchData = useFetch();
+
+  //States
   const [data, setData] = useState<Record<string, string>>({});
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const [catOne, setCatOne] = useState<string>();
+  const [catTwo, setCatTwo] = useState<string>();
+
+  const [alreadyClicked, setAlreadyClicked] = useState<string[]>();
+
 
   useEffect(() => {
     const fetchDataFromAPI = async () => {
@@ -15,22 +28,24 @@ function App() {
 
       if (result !== -1) {
         setData(result);
+        setLoading(false);
       }
     };
 
-    //fetchDataFromAPI();
+    fetchDataFromAPI();
   }, []);
 
 
-  //console.log(data)
 
   return (
     <>
-      <div className="grid place-content-center bg-white w-screen h-screen">
-        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status">
-          <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">Loading...</span>
-        </div>
-      </div>
+      {loading ? (
+        <LoadingScreen />
+      ) : (
+        <main className='w-screen h-screen grid grid-cols-2'>
+          
+        </main>
+      )}
     </>
   )
 }
