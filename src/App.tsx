@@ -2,7 +2,8 @@
 import './css/index.css'
 
 // Import hooks
-import { useFetch } from './hooks/useFetch'
+import { useFetch } from './hooks/useFetch';
+import { useRandom } from './hooks/useRandom';
 import { useEffect, useState } from 'react';
 
 //Import Components
@@ -23,19 +24,26 @@ function App() {
 
 
   useEffect(() => {
-    const fetchDataFromAPI = async () => {
+    const startApp = async () => {
+      //Using the hook to fetch...
       const result = await fetchData;
 
+      //When we get all results, callback :
       if (result !== -1) {
         setData(result);
         setLoading(false);
+
+        setCatOne(useRandom(result));
+        setCatTwo(useRandom(result));
       }
     };
 
-    fetchDataFromAPI();
+    startApp();
   }, []);
 
 
+  console.log(catOne);
+  console.log(catTwo);
 
   return (
     <>
