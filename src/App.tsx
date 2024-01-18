@@ -17,11 +17,10 @@ function App() {
   const [data, setData] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState<boolean>(true);
 
-  const [catOne, setCatOne] = useState<string>();
-  const [catTwo, setCatTwo] = useState<string>();
+  const [catOne, setCatOne] = useState<string>('');
+  const [catTwo, setCatTwo] = useState<string>('');
 
-  const [alreadyClicked, setAlreadyClicked] = useState<string[]>();
-
+  const [alreadyPicked, setAlreadyPicked] = useState<string[]>([]);
 
   useEffect(() => {
     const startApp = async () => {
@@ -33,17 +32,19 @@ function App() {
         setData(result);
         setLoading(false);
 
-        setCatOne(useRandom(result));
-        setCatTwo(useRandom(result));
+        const newCatOne = useRandom(result);
+        const newCatTwo = useRandom(result, [newCatOne]);
+
+        setCatOne(newCatOne);
+        setCatTwo(newCatTwo);
       }
     };
 
     startApp();
+    
   }, []);
 
-
-  console.log(catOne);
-  console.log(catTwo);
+  console.log(catOne, catTwo, alreadyPicked);
 
   return (
     <>
