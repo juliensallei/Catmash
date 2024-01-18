@@ -9,6 +9,8 @@ import { useEffect, useState } from 'react';
 //Import Components
 import LoadingScreen from './components/loadingScreen';
 import CatChoice from './components/catChoice';
+import TopBar from './components/topBar';
+import Footer from './components/footer';
 
 function App() {
   //Hooks
@@ -48,30 +50,32 @@ function App() {
   console.log(catOne, catTwo, alreadyPicked, data);
 
   const handleClickFirst = () => {
-    console.log('one');
+    setAlreadyPicked((alreadyPicked) => [...alreadyPicked, catOne]);
+    setCatOne(catTwo);
+    const newCatTwo = useRandom(data, alreadyPicked);
+    setCatTwo(newCatTwo);
   }
 
   const handleClickSecond = () => {
-    console.log('two');
+    setAlreadyPicked((alreadyPicked) => [...alreadyPicked, catTwo]);
+    const newCatTwo = useRandom(data, alreadyPicked);
+    setCatTwo(newCatTwo);
   }
 
-  return (
-    <>
-      {loading ? (
-        <LoadingScreen />
-      ) : (
-        <>
-          <nav className='absolute top-0 left-0 w-screen text-center font-sans font-extrabold text-2xl p-2'>
-            <h1>Choisissez votre chat préféré !</h1>
-          </nav>
-          <main className='w-screen h-screen grid grid-cols-2'>
-            <CatChoice catChosen={data[catOne]} handleClickInParent={handleClickFirst}/>
-            <CatChoice catChosen={data[catTwo]} handleClickInParent={handleClickSecond}/>
-          </main>
-        </>
-      )}
-    </>
-  )
+  if(loading){
+    return <LoadingScreen />;
+  } else {
+    return (
+      <>
+        <TopBar />
+        <main className='w-screen h-screen grid grid-cols-2'>
+          <CatChoice catChosen={data[catOne]} handleClickInParent={handleClickFirst}/>
+          <CatChoice catChosen={data[catTwo]} handleClickInParent={handleClickSecond}/>
+        </main>
+        <Footer />
+      </>
+    )
+  }
 }
 
 export default App

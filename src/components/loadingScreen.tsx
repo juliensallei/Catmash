@@ -1,4 +1,4 @@
-export default function LoadingScreen() {
+const LoadingScreen = () => {
   return (
     <div className="grid place-content-center bg-white w-screen h-screen">
       <div
@@ -12,3 +12,5 @@ export default function LoadingScreen() {
     </div>
   );
 }
+
+export default LoadingScreen;
