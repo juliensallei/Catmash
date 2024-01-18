@@ -1,7 +1,7 @@
 import React, {MouseEvent} from "react";
 
 interface FooterProps {
-    handleClickInParent: (event: MouseEvent<HTMLButtonElement>) => void;
+    handleClickInParent: (event: MouseEvent<HTMLDivElement>) => void;
 }
 
 const Footer: React.FC<FooterProps> = ({ handleClickInParent }) => {

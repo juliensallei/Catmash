@@ -62,6 +62,10 @@ function App() {
     setCatTwo(newCatTwo);
   }
 
+  const toggleResults = () => {
+    console.log('results');
+  }
+
   if(loading){
     return <LoadingScreen />;
   } else {
@@ -72,7 +76,7 @@ function App() {
           <CatChoice catChosen={data[catOne]} handleClickInParent={handleClickFirst}/>
           <CatChoice catChosen={data[catTwo]} handleClickInParent={handleClickSecond}/>
         </main>
-        <Footer />
+        <Footer handleClickInParent={toggleResults} />
       </>
     )
   }
