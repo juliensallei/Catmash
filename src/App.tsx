@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 
 //Import Components
 import LoadingScreen from './components/loadingScreen';
+import CatChoice from './components/catChoice';
 
 function App() {
   //Hooks
@@ -44,16 +45,22 @@ function App() {
     
   }, []);
 
-  console.log(catOne, catTwo, alreadyPicked);
+  console.log(catOne, catTwo, alreadyPicked, data);
 
   return (
     <>
       {loading ? (
         <LoadingScreen />
       ) : (
-        <main className='w-screen h-screen grid grid-cols-2'>
-          
-        </main>
+        <>
+          <nav className='absolute top-0 left-0 w-screen text-center font-sans font-extrabold text-2xl p-2'>
+            <h1>Choisissez votre chat préféré !</h1>
+          </nav>
+          <main className='w-screen h-screen grid grid-cols-2'>
+            <CatChoice catChosen={data[catOne]} />
+            <CatChoice catChosen={data[catTwo]} />
+          </main>
+        </>
       )}
     </>
   )
