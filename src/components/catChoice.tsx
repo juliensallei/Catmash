@@ -1,13 +1,14 @@
-import React from 'react';
+import React, {MouseEvent} from 'react';
 
-interface CatMenuProps {
+interface CatChoiceProps {
+  handleClickInParent: (event: MouseEvent<HTMLButtonElement>) => void;
   catChosen: string;
 }
 
-const CatChoice: React.FC<CatMenuProps> = ({ catChosen }) => {
+const CatChoice: React.FC<CatChoiceProps> = ({ handleClickInParent, catChosen }) => {
     return(
-            <section className='w-full h-full grid place-content-center bg-white hover:bg-sky-200 cursor-pointer transition-colors duration-300'>
-              <img className='w-96 h-96 object-cover rounded-full' src={catChosen} alt="" />
+            <section onClick={handleClickInParent} className='w-full h-full grid place-content-center bg-white hover:bg-sky-200 cursor-pointer transition-colors duration-300'>
+              <img className='w-96 h-96 object-cover object-center rounded-full' src={catChosen} alt="" />
             </section>
     )
 }

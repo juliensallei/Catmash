@@ -13,6 +13,5 @@ export function useRandom(obj: CatList, exclude?: string[]) {
     const randomIndex = Math.floor(Math.random() * filteredKeys.length);
     const randomKey = filteredKeys[randomIndex];
 
-    const randomProperty = obj[randomKey];
     return randomKey;
 }

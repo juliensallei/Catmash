@@ -47,6 +47,14 @@ function App() {
 
   console.log(catOne, catTwo, alreadyPicked, data);
 
+  const handleClickFirst = () => {
+    console.log('one');
+  }
+
+  const handleClickSecond = () => {
+    console.log('two');
+  }
+
   return (
     <>
       {loading ? (
@@ -57,8 +65,8 @@ function App() {
             <h1>Choisissez votre chat préféré !</h1>
           </nav>
           <main className='w-screen h-screen grid grid-cols-2'>
-            <CatChoice catChosen={data[catOne]} />
-            <CatChoice catChosen={data[catTwo]} />
+            <CatChoice catChosen={data[catOne]} handleClickInParent={handleClickFirst}/>
+            <CatChoice catChosen={data[catTwo]} handleClickInParent={handleClickSecond}/>
           </main>
         </>
       )}
