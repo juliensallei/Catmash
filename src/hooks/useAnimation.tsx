@@ -51,15 +51,6 @@ const useAnimation = (animationName:string, targetId?:string) => {
                 }
             )
             break;
-        case 'fadeResults':
-            animate(
-                `main`,
-                {opacity: [0, 1]},
-                {
-                    duration: 0.5,
-                }
-            )
-            break;
     }
 }
 

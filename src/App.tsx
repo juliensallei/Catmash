@@ -123,7 +123,6 @@ function App() {
   // Basculement simple entre l'écran de vote et l'écran des résultats.
   const toggleResults = () => {
     resultMode ? setResultMode(false) : setResultMode(true); 
-    useAnimation('fadeResults');
   }
   
   // Retourner l'application, en fonction de l'état d'affichage actif.
