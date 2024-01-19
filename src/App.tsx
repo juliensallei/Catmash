@@ -25,6 +25,8 @@ function App() {
 
   const [alreadyPicked, setAlreadyPicked] = useState<string[]>([]);
 
+  const [resultMode, setResultMode] = useState<boolean>(false);
+
   useEffect(() => {
     let isCancelled = false;
     const startApp = async () => {
@@ -34,13 +36,13 @@ function App() {
       //When we get all results, callback :
       if (result !== -1) {
         setData(result);
-        setLoading(false);
 
         const newCatOne = useRandom(result);
         const newCatTwo = useRandom(result, [newCatOne]);
 
         setCatOne(newCatOne);
         setCatTwo(newCatTwo);
+        setLoading(false);
       }
     };
     
@@ -67,22 +69,35 @@ function App() {
   }
 
   const toggleResults = () => {
-    console.log('results');
+    resultMode ? setResultMode(false) : setResultMode(true);
   }
 
   if(loading){
     return <LoadingScreen />;
   } else {
-    return (
-      <>
-        <TopBar />
-        <main className='w-screen h-screen grid grid-cols-2'>
-          <CatChoice catChosen={data[catOne]} handleClickInParent={handleClickFirst}/>
-          <CatChoice catChosen={data[catTwo]} handleClickInParent={handleClickSecond}/>
-        </main>
-        <Footer handleClickInParent={toggleResults} />
-      </>
-    )
+    if(resultMode){
+      return (
+        <>
+          <TopBar />
+          <main className='w-screen h-screen grid grid-cols-2'>
+            Results
+          </main>
+          <Footer handleClickInParent={toggleResults} />
+        </>
+      )
+    } else {
+      return (
+        <>
+          <TopBar />
+          <main className='w-screen h-screen grid grid-cols-2'>
+            <CatChoice catChosen={data[catOne]} handleClickInParent={handleClickFirst}/>
+            <CatChoice catChosen={data[catTwo]} handleClickInParent={handleClickSecond}/>
+          </main>
+          <Footer handleClickInParent={toggleResults} />
+        </>
+      )
+    }
+    
   }
 }
 
