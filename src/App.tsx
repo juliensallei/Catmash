@@ -26,6 +26,7 @@ function App() {
   const [alreadyPicked, setAlreadyPicked] = useState<string[]>([]);
 
   useEffect(() => {
+    let isCancelled = false;
     const startApp = async () => {
       //Using the hook to fetch...
       const result = await fetchData;
@@ -42,9 +43,12 @@ function App() {
         setCatTwo(newCatTwo);
       }
     };
-
-    startApp();
     
+    startApp();
+
+    return () => {
+      isCancelled = true;
+    }
   }, []);
 
   console.log(catOne, catTwo, alreadyPicked, data);
