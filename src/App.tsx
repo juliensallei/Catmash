@@ -68,7 +68,7 @@ function App() {
 
   const alreadyPickedCleanup = () => {
     if(alreadyPicked.length > 4){
-      const poppedArray = alreadyPicked.shift();
+      alreadyPicked.shift();
       setAlreadyPicked(alreadyPicked);
     }
   }
@@ -101,7 +101,7 @@ function App() {
       return (
         <>
           <TopBar content='Voici les résultats :' />
-          <main className='relative top-0 left-0 w-56 flex flex-col'>
+          <main className='relative top-0 left-0 w-96 flex flex-col m-auto mt-32 mb-32'>
             {
               Object.keys(catsScores)
               .sort((id1, id2) => catsScores[id2] - catsScores[id1])
@@ -110,14 +110,14 @@ function App() {
               })
             }
           </main>
-          <Footer handleClickInParent={toggleResults} content="Voter pour votre chat préféré" />
+          <Footer handleClickInParent={toggleResults} content="Revenir au vote" />
         </>
       )
     } else {
       return (
         <>
           <TopBar content='Choisissez votre chat préféré !' />
-          <main className='absolute top-0 left-0 w-screen h-screen grid grid-cols-2'>
+          <main className='absolute top-0 left-0 w-screen h-screen grid grid-cols-1 grid-rows-2 md:grid-rows-1 md:grid-cols-2 '>
             <CatChoice catChosen={data[catOne]} handleClickInParent={handleClickFirst}/>
             <CatChoice catChosen={data[catTwo]} handleClickInParent={handleClickSecond}/>
           </main>
