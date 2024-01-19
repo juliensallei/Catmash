@@ -4,6 +4,7 @@ import './css/index.css'
 // Import hooks
 import { useFetch } from './hooks/useFetch';
 import { useRandom } from './hooks/useRandom';
+import useAnimation from './hooks/useAnimation';
 import { useEffect, useState } from 'react';
 
 //Import Components
@@ -73,25 +74,28 @@ function App() {
     }
   }
 
-  const handleClickFirst = () => {
+  const handleClickFirst = (idElement:string) => {
     setAlreadyPicked((alreadyPicked) => [...alreadyPicked, catOne]);
     dispatch(increaseScore(catOne));
     setCatOne(catTwo);
     const newCatTwo = useRandom(data, alreadyPicked);
     setCatTwo(newCatTwo);
     alreadyPickedCleanup();
+    useAnimation('clickChoice', idElement);
   }
 
-  const handleClickSecond = () => {
+  const handleClickSecond = (idElement:string) => {
     setAlreadyPicked((alreadyPicked) => [...alreadyPicked, catTwo]);
     dispatch(increaseScore(catTwo));
     const newCatTwo = useRandom(data, alreadyPicked);
     setCatTwo(newCatTwo);
     alreadyPickedCleanup();
+    useAnimation('clickChoice', idElement);
   }
 
   const toggleResults = () => {
-    resultMode ? setResultMode(false) : setResultMode(true);
+    resultMode ? setResultMode(false) : setResultMode(true); 
+    useAnimation('fadeResults');
   }
   
   if(loading){
@@ -118,8 +122,8 @@ function App() {
         <>
           <TopBar content='Choisissez votre chat préféré !' />
           <main className='absolute top-0 left-0 w-screen h-screen grid grid-cols-1 grid-rows-2 md:grid-rows-1 md:grid-cols-2 '>
-            <CatChoice catChosen={data[catOne]} handleClickInParent={handleClickFirst}/>
-            <CatChoice catChosen={data[catTwo]} handleClickInParent={handleClickSecond}/>
+            <CatChoice catChosen={data[catOne]} handleClickInParent={() => handleClickFirst('choiceOne')} domId="choiceOne"/>
+            <CatChoice catChosen={data[catTwo]} handleClickInParent={() => handleClickSecond('choiceTwo')} domId="choiceTwo"/>
           </main>
           <Footer handleClickInParent={toggleResults} content="Voir les plus beaux chats" />
         </>
