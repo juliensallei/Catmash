@@ -11,6 +11,7 @@ import LoadingScreen from './components/loadingScreen';
 import CatChoice from './components/catChoice';
 import TopBar from './components/topBar';
 import Footer from './components/footer';
+import CatResult from './components/catResult';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { increaseScore } from './redux/slice';
@@ -59,8 +60,6 @@ function App() {
     }
   }, []);
 
-  //console.log(catOne, catTwo, alreadyPicked, data);
-
   const catsScores = useSelector((state: RootState) => state.cats.scores)
 
   const handleClickFirst = () => {
@@ -80,10 +79,8 @@ function App() {
 
   const toggleResults = () => {
     resultMode ? setResultMode(false) : setResultMode(true);
-    console.log(catsScores);
-    console.log(data);
   }
-
+  
   if(loading){
     return <LoadingScreen />;
   } else {
@@ -91,8 +88,12 @@ function App() {
       return (
         <>
           <TopBar content='Voici les résultats :' />
-          <main className='w-screen h-screen grid grid-cols-2'>
-            Results
+          <main className='relative top-0 left-0 w-56 flex flex-col'>
+            {
+              Object.keys(data).map((id) => {
+                return <CatResult imgUrl={data[id]} score={catsScores[id]} />
+              })
+            }
           </main>
           <Footer handleClickInParent={toggleResults} content="Voter pour votre chat préféré" />
         </>
@@ -101,7 +102,7 @@ function App() {
       return (
         <>
           <TopBar content='Choisissez votre chat préféré !' />
-          <main className='w-screen h-screen grid grid-cols-2'>
+          <main className='absolute top-0 left-0 w-screen h-screen grid grid-cols-2'>
             <CatChoice catChosen={data[catOne]} handleClickInParent={handleClickFirst}/>
             <CatChoice catChosen={data[catTwo]} handleClickInParent={handleClickSecond}/>
           </main>
