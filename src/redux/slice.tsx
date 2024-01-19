@@ -13,7 +13,7 @@ export const catSlice = createSlice({
     name: "cats",
     initialState,
     reducers: {
-        increaseScore: (state, action: PayloadAction<number>) => {
+        increaseScore: (state, action: PayloadAction<string>) => {
             const catId = action.payload;
             
             if(state.scores[catId]){

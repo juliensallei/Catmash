@@ -12,7 +12,8 @@ import CatChoice from './components/catChoice';
 import TopBar from './components/topBar';
 import Footer from './components/footer';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { increaseScore } from './redux/slice';
 import { RootState } from './redux/types';
 
 function App() {
@@ -29,6 +30,8 @@ function App() {
   const [alreadyPicked, setAlreadyPicked] = useState<string[]>([]);
 
   const [resultMode, setResultMode] = useState<boolean>(false);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     let isCancelled = false;
@@ -62,6 +65,7 @@ function App() {
 
   const handleClickFirst = () => {
     setAlreadyPicked((alreadyPicked) => [...alreadyPicked, catOne]);
+    dispatch(increaseScore(catOne))
     setCatOne(catTwo);
     const newCatTwo = useRandom(data, alreadyPicked);
     setCatTwo(newCatTwo);
@@ -69,18 +73,20 @@ function App() {
 
   const handleClickSecond = () => {
     setAlreadyPicked((alreadyPicked) => [...alreadyPicked, catTwo]);
+    dispatch(increaseScore(catTwo))
     const newCatTwo = useRandom(data, alreadyPicked);
     setCatTwo(newCatTwo);
   }
 
   const toggleResults = () => {
     resultMode ? setResultMode(false) : setResultMode(true);
+    console.log(catsScores);
+    console.log(data);
   }
 
   if(loading){
     return <LoadingScreen />;
   } else {
-    console.log(catsScores);
     if(resultMode){
       return (
         <>
