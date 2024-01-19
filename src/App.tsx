@@ -65,11 +65,8 @@ function App() {
         setCatTwo(newCatTwo);
       }
     };
-    let isCancelled = false;
     startApp();
-    return () => {
-      isCancelled = true;
-    }
+    return;
   }, []);
 
   //Tableau de classement des scores des chats, stocké dans Redux.
