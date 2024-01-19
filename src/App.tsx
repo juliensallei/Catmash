@@ -66,12 +66,20 @@ function App() {
 
   const catsScores = useSelector((state: RootState) => state.cats.scores);
 
+  const alreadyPickedCleanup = () => {
+    if(alreadyPicked.length > 4){
+      const poppedArray = alreadyPicked.shift();
+      setAlreadyPicked(alreadyPicked);
+    }
+  }
+
   const handleClickFirst = () => {
     setAlreadyPicked((alreadyPicked) => [...alreadyPicked, catOne]);
     dispatch(increaseScore(catOne));
     setCatOne(catTwo);
     const newCatTwo = useRandom(data, alreadyPicked);
     setCatTwo(newCatTwo);
+    alreadyPickedCleanup();
   }
 
   const handleClickSecond = () => {
@@ -79,6 +87,7 @@ function App() {
     dispatch(increaseScore(catTwo));
     const newCatTwo = useRandom(data, alreadyPicked);
     setCatTwo(newCatTwo);
+    alreadyPickedCleanup();
   }
 
   const toggleResults = () => {
