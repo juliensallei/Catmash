@@ -1,5 +1,4 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-
+import { PayloadAction, createSlice, current } from "@reduxjs/toolkit";
 
 interface ScoreObject {
     scores: Record<string, number>;
@@ -21,9 +20,13 @@ export const catSlice = createSlice({
             } else {
                 state.scores[catId] = 1;
             }
+        },
+        subscribeIdToState: (state, action: PayloadAction<string>) => {
+            const catId = action.payload;
+            state.scores[catId] = 0;
         }
     }
 })
 
-export const { increaseScore } = catSlice.actions;
+export const { increaseScore, subscribeIdToState } = catSlice.actions;
 export default catSlice.reducer;

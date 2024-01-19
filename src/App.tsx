@@ -14,7 +14,7 @@ import Footer from './components/footer';
 import CatResult from './components/catResult';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { increaseScore } from './redux/slice';
+import { increaseScore, subscribeIdToState } from './redux/slice';
 import { RootState } from './redux/types';
 
 function App() {
@@ -43,6 +43,10 @@ function App() {
 
       //When we get all results, callback :
       if (result !== -1) {
+        Object.keys(result).forEach((key) => {
+          dispatch(subscribeIdToState(key));
+        })
+
         setData(result);
 
         const newCatOne = useRandom(result);
@@ -60,11 +64,11 @@ function App() {
     }
   }, []);
 
-  const catsScores = useSelector((state: RootState) => state.cats.scores)
+  const catsScores = useSelector((state: RootState) => state.cats.scores);
 
   const handleClickFirst = () => {
     setAlreadyPicked((alreadyPicked) => [...alreadyPicked, catOne]);
-    dispatch(increaseScore(catOne))
+    dispatch(increaseScore(catOne));
     setCatOne(catTwo);
     const newCatTwo = useRandom(data, alreadyPicked);
     setCatTwo(newCatTwo);
@@ -72,7 +76,7 @@ function App() {
 
   const handleClickSecond = () => {
     setAlreadyPicked((alreadyPicked) => [...alreadyPicked, catTwo]);
-    dispatch(increaseScore(catTwo))
+    dispatch(increaseScore(catTwo));
     const newCatTwo = useRandom(data, alreadyPicked);
     setCatTwo(newCatTwo);
   }
@@ -90,8 +94,10 @@ function App() {
           <TopBar content='Voici les résultats :' />
           <main className='relative top-0 left-0 w-56 flex flex-col'>
             {
-              Object.keys(data).map((id) => {
-                return <CatResult imgUrl={data[id]} score={catsScores[id]} />
+              Object.keys(catsScores)
+              .sort((id1, id2) => catsScores[id2] - catsScores[id1])
+              .map((id) => {
+                return <CatResult imgUrl={data[id]} score={catsScores[id]} key={id} />
               })
             }
           </main>
