@@ -7,7 +7,7 @@ interface CatList {
     id: string
 }
 
-export async function useFetch() {
+const useFetch = async () => {
     try {
         const data:Response = await fetch('https://conseil.latelier.co/data/cats.json');
         const res: JsonStructure = await data.json();
@@ -26,3 +26,5 @@ export async function useFetch() {
         return -1;
     }
 }
+
+export default useFetch;

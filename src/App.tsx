@@ -2,8 +2,8 @@
 import './css/index.css'
 
 // Import hooks
-import { useFetch } from './hooks/useFetch';
-import { useRandom } from './hooks/useRandom';
+import useFetch from './hooks/useFetch';
+import useRandom from './hooks/useRandom';
 import useAnimation from './hooks/useAnimation';
 import { useEffect, useState } from 'react';
 
@@ -17,6 +17,7 @@ import CatResult from './components/catResult';
 import { useSelector, useDispatch } from 'react-redux';
 import { increaseScore, subscribeIdToState } from './redux/slice';
 import { RootState } from './redux/types';
+import Hearts from './components/hearts';
 
 function App() {
   //Hooks
@@ -68,7 +69,7 @@ function App() {
   const catsScores = useSelector((state: RootState) => state.cats.scores);
 
   const alreadyPickedCleanup = () => {
-    if(alreadyPicked.length > 4){
+    if(alreadyPicked.length > 10){
       alreadyPicked.shift();
       setAlreadyPicked(alreadyPicked);
     }
@@ -82,6 +83,7 @@ function App() {
     setCatTwo(newCatTwo);
     alreadyPickedCleanup();
     useAnimation('clickChoice', idElement);
+    useAnimation('heartPop', 'heartOne');
   }
 
   const handleClickSecond = (idElement:string) => {
@@ -91,6 +93,7 @@ function App() {
     setCatTwo(newCatTwo);
     alreadyPickedCleanup();
     useAnimation('clickChoice', idElement);
+    useAnimation('heartPop', 'heartTwo');
   }
 
   const toggleResults = () => {
@@ -121,6 +124,7 @@ function App() {
       return (
         <>
           <TopBar content='Choisissez votre chat préféré !' />
+          <Hearts />
           <main className='absolute top-0 left-0 w-screen h-screen grid grid-cols-1 grid-rows-2 md:grid-rows-1 md:grid-cols-2 '>
             <CatChoice catChosen={data[catOne]} handleClickInParent={() => handleClickFirst('choiceOne')} domId="choiceOne"/>
             <CatChoice catChosen={data[catTwo]} handleClickInParent={() => handleClickSecond('choiceTwo')} domId="choiceTwo"/>
@@ -129,7 +133,6 @@ function App() {
         </>
       )
     }
-    
   }
 }
 

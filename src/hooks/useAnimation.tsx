@@ -32,6 +32,20 @@ const useAnimation = (animationName:string, targetId?:string) => {
                 }
             )
             break;
+        case 'heartPop':
+            animate(
+                `#${targetId}`,
+                {
+                    y: [0, -400],
+                    scale: [0,0.8],
+                    opacity: [0,1,0]
+                },
+                {
+                    duration: 0.8,
+                    easing: [0.19,1,0.22,1]
+                }
+            )
+            break;
         case 'fadeResults':
             animate(
                 `main`,

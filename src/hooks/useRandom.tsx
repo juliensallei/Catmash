@@ -2,7 +2,7 @@ type CatList = {
     [key: string]: string;
 }
 
-export function useRandom(obj: CatList, exclude?: string[]) { 
+const useRandom = (obj: CatList, exclude?: string[]) => { 
     const keys:string[] = Object.keys(obj);
     let filteredKeys: string[] = keys;
 
@@ -15,3 +15,5 @@ export function useRandom(obj: CatList, exclude?: string[]) {
 
     return randomKey;
 }
+
+export default useRandom;
