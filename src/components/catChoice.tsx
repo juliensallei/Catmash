@@ -1,6 +1,12 @@
 import React, {MouseEvent} from 'react';
 import useAnimation from '../hooks/useAnimation'
 
+/**
+ * Cette interface relie l'état de gestion de l'événement de clic dans le code parent (App.tsx).
+ * La raison en est une meilleure gestion de l'état.
+ * L'événement n'est "propdrilled" qu'une seule fois.
+ * De plus, nous transmettons toutes les données affichées du composant racine à ce composant.
+ */
 interface CatChoiceProps {
   handleClickInParent: (event: MouseEvent<HTMLButtonElement>) => void;
   catChosen: string;
@@ -8,6 +14,7 @@ interface CatChoiceProps {
 }
 
 const CatChoice: React.FC<CatChoiceProps> = ({ handleClickInParent, catChosen, domId }) => {
+    //ANIMATIONS
     const handleEnter = (id:string) => {
       useAnimation('hoverChoice', id)
     }

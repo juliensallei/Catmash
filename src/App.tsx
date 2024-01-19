@@ -1,27 +1,29 @@
-// Import assets
+// Imports d'assets
 import './css/index.css'
 
-// Import hooks
+// Import des hooks
 import useFetch from './hooks/useFetch';
 import useRandom from './hooks/useRandom';
 import useAnimation from './hooks/useAnimation';
 import { useEffect, useState } from 'react';
 
-//Import Components
+//Import des Composants
 import LoadingScreen from './components/loadingScreen';
 import CatChoice from './components/catChoice';
 import TopBar from './components/topBar';
 import Footer from './components/footer';
 import CatResult from './components/catResult';
+import Hearts from './components/hearts';
 
+//Imports redux
 import { useSelector, useDispatch } from 'react-redux';
 import { increaseScore, subscribeIdToState } from './redux/slice';
 import { RootState } from './redux/types';
-import Hearts from './components/hearts';
 
 function App() {
   //Hooks
   const fetchData = useFetch();
+  const dispatch = useDispatch();
 
   //States
   const [data, setData] = useState<Record<string, string>>({});
@@ -34,16 +36,22 @@ function App() {
 
   const [resultMode, setResultMode] = useState<boolean>(false);
 
-  const dispatch = useDispatch();
 
+  /**
+   * Nous utiliserons useEffect pour l'initialisation de l'application.
+   * Cet effet charge les données via un hook personnalisé, contenu dans fetchData.
+   * Une fois les données récupérées, chaque identifiant de chaque chat sera poussé dans le redux store.
+   * Ensuite, nous sélectionnons deux chats au hasard, en nous assurant qu'ils ne sont pas identiques.
+   * Lorsque les données sont prêtes et que la promesse asynchrone est remplie, nous faisons basculer l'écran de chargement.
+   */
   useEffect(() => {
     let isCancelled = false;
     const startApp = async () => {
-      //Using the hook to fetch...
+      // On utilise useFetch() pour récupérer les données...
       const result = await fetchData;
       await setLoading(false)
 
-      //When we get all results, callback :
+      // Quand on a un résultat :
       if (result !== -1) {
         Object.keys(result).forEach((key) => {
           dispatch(subscribeIdToState(key));
@@ -66,45 +74,67 @@ function App() {
     }
   }, []);
 
+  //Tableau de classement des scores des chats, stocké dans Redux.
   const catsScores = useSelector((state: RootState) => state.cats.scores);
 
+  /**
+   * Une fois le choix effectué, l'identifiant de l'entrée sélectionnée reste dans alreadyPicked.
+   * L'entrée est exclue de la sélection aléatoire pendant le nombre de tours indiqué par le seuil.
+   */
   const alreadyPickedCleanup = () => {
-    if(alreadyPicked.length > 10){
+    const threshold = 10;
+    if(alreadyPicked.length > threshold){
       alreadyPicked.shift();
       setAlreadyPicked(alreadyPicked);
     }
   }
 
+  // Click choix numéro 1
   const handleClickFirst = (idElement:string) => {
+    /**
+     * Traitement des données : On mémorise le choix effectué, et on augmente le score.
+     * On transfère le deuxième choix, à la place 1. Puis on choisit un nouveau chat au hasard.
+     */
     setAlreadyPicked((alreadyPicked) => [...alreadyPicked, catOne]);
     dispatch(increaseScore(catOne));
     setCatOne(catTwo);
     const newCatTwo = useRandom(data, alreadyPicked);
     setCatTwo(newCatTwo);
     alreadyPickedCleanup();
+    // Animations
     useAnimation('clickChoice', idElement);
     useAnimation('heartPop', 'heartOne');
   }
 
+  // Click choix numéro 2
   const handleClickSecond = (idElement:string) => {
+    /**
+     * Traitement des données : On mémorise le choix effectué, et on augmente le score.
+     * Puis on choisit un nouveau chat au hasard.
+     */
     setAlreadyPicked((alreadyPicked) => [...alreadyPicked, catTwo]);
     dispatch(increaseScore(catTwo));
     const newCatTwo = useRandom(data, alreadyPicked);
     setCatTwo(newCatTwo);
     alreadyPickedCleanup();
+    // Animations
     useAnimation('clickChoice', idElement);
     useAnimation('heartPop', 'heartTwo');
   }
 
+  // Basculement simple entre l'écran de vote et l'écran des résultats.
   const toggleResults = () => {
     resultMode ? setResultMode(false) : setResultMode(true); 
     useAnimation('fadeResults');
   }
   
+  // Retourner l'application, en fonction de l'état d'affichage actif.
   if(loading){
+    //LOADING SCREEN
     return <LoadingScreen />;
   } else {
     if(resultMode){
+      // PAGE DES RESULTATS
       return (
         <>
           <TopBar content='Voici les résultats :' />
@@ -121,6 +151,7 @@ function App() {
         </>
       )
     } else {
+      // ECRAN DE VOTE
       return (
         <>
           <TopBar content='Choisissez votre chat préféré !' />

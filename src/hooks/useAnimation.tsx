@@ -1,5 +1,10 @@
 import { animate } from "motion"
 
+/**
+ * Ce hook personnalisé décrit chaque animation, et déclenche une méthode animate basée sur celle que nous sélectionnons.
+ * Ce code peut être très verbeux, d'où le crochet personnalisé et la condition switch.
+ * Comme toutes les animations ne sont pas faites pour chaque élément, nous devons passer un attribut id pour certains d'entre eux.
+ */
 const useAnimation = (animationName:string, targetId?:string) => {
     switch(animationName){
         case 'hoverChoice':

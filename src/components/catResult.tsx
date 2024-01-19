@@ -1,3 +1,7 @@
+/**
+ * Seuls deux props sont passés ici.
+ * Nous utiliserons exceptionnellement une condition ternaire, à des fins d'affichage.
+ */
 const CatResult = ({imgUrl, score}: {imgUrl:string, score:number}) => {
     return (
         <div className='catRes flex flex-row m-2'>

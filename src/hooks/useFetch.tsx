@@ -7,6 +7,12 @@ interface CatList {
     id: string
 }
 
+/**
+ * Ce hook récupère les données de l'api.
+ * Après cela, il analyse les données et renvoie un objet record.
+ * Cela nous permet d'avoir un identifiant unique pour cibler chaque entrée individuellement.
+ * Si la promesse échoue, nous renvoyons une erreur.
+ */
 const useFetch = async () => {
     try {
         const data:Response = await fetch('https://conseil.latelier.co/data/cats.json');
