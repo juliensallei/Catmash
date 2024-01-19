@@ -29,7 +29,7 @@ const CatChoice: React.FC<CatChoiceProps> = ({ handleClickInParent, catChosen, d
               onMouseLeave={() => handleLeave(domId)}
               onClick={handleClickInParent}
               className='w-full h-full grid place-content-center bg-white hover:bg-sky-200 cursor-pointer transition-colors duration-300'>
-              <img id={domId} className='w-64 h-64 md:w-96 md:h-96 object-cover object-center rounded-full aspect-square' src={catChosen} alt="" />
+              <img id={domId} className='w-48 h-48 md:w-96 md:h-96 object-cover object-center rounded-full aspect-square' src={catChosen} alt="" />
             </section>
     )
 }
