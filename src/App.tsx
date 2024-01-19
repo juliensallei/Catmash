@@ -45,7 +45,6 @@ function App() {
    * Lorsque les données sont prêtes et que la promesse asynchrone est remplie, nous faisons basculer l'écran de chargement.
    */
   useEffect(() => {
-    let isCancelled = false;
     const startApp = async () => {
       // On utilise useFetch() pour récupérer les données...
       const result = await fetchData;
@@ -66,9 +65,8 @@ function App() {
         setCatTwo(newCatTwo);
       }
     };
-    
+    let isCancelled = false;
     startApp();
-
     return () => {
       isCancelled = true;
     }
